@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -8,11 +8,18 @@ import { Todos } from './components/Todos'
 function App() {
   const [todos, setTodos] = useState([])
 
-  fetch("http://localhost:3000/Todos/")
-  .then(async function (res){
-    const json = await res.json();
-    setTodos(json.todos)
-  })
+  useEffect(() => {
+    fetch("http://localhost:3000/Todos/")
+      .then(async (res) => {
+        console.log(res);
+        const json = await res.json();
+        setTodos(json.Todos || []);
+        
+      })
+      .catch((error) => {
+        console.error("Error fetching todos:", error);
+      });
+  }, []);
   console.log(todos)
 
   return (
